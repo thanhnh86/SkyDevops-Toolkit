@@ -1,0 +1,17 @@
+{
+  "skill_name": "nginx-install",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Hãy cài đặt Nginx phiên bản Stable cho hệ điều hành Ubuntu của tôi.",
+      "expected_output": "Nginx Stable should be installed using official repositories on Ubuntu.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want to install the latest mainline Nginx on my CentOS server.",
+      "expected_output": "Nginx Mainline should be installed using official repositories on CentOS.",
+      "files": []
+    }
+  ]
+}
