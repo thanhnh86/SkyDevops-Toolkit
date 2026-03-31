@@ -23,12 +23,20 @@ The project is organized into a core framework and a plugin system:
 To add a new software plugin:
 1. Create a folder in `plugins/your-software/`.
 2. Create `install.sh`, `optimize.sh`, etc.
-3. Source the plugin in `main.sh`.
-4. Add the menu entry in `show_main_menu` and the case in `handle_choice`.
+3. Put installation heavy-lifting scripts in `plugins/your-software/scripts/`.
+4. Source the plugin in `main.sh`.
+5. Add the menu entry in `show_main_menu` and the case in `handle_choice`.
+
+## Advanced Features
+- **Dynamic Sudo/Root Detection**: `main.sh` automatically detects if the user is root or has sudo access, setting a global `$SUDO` variable.
+- **Auto-Dependency Installation**: Installation scripts automatically install `curl`, `gnupg2`, `lsb-release`, etc., before the main software installation.
+- **Container Compatibility**: Explicitly checks for `systemctl` existence to avoid errors in Docker/LXC environments.
 
 ## Requirements
-- Sudo/Root privileges.
-- `tput`, `sed`, `grep`, `lsb_release` installed.
+The core toolkit requires:
+- `bash`, `sed`, `grep`, `tput`.
+- Root or `sudo` access (automatically detected).
+- **Auto-installed by scripts**: `curl`, `gnupg2`, `lsb-release`, `ca-certificates`.
 
 ## Standard Plugin Structure (Best Practices)
 When creating installation plugins for any new software, strictly adhere to the following workflow:
@@ -40,3 +48,5 @@ When creating installation plugins for any new software, strictly adhere to the 
    - *Gỡ bản cũ (vX) & Cài bản mới (vY)*: If target version differs from current version (Upgrade/Downgrade).
 4. **User Confirmation**: Always display an overview UI box detailing the OS, Target Version, and Smart Action text. Explicit confirmation (`Y/n`) is required before proceeding.
 5. **Real/Simulated Progress**: If an upgrade/downgrade is detected, explicitly simulate or run the uninstallation step before configuring the new repository and installing the new version.
+6. **Robust Dependency Check**: Every installation script must include a `pre_install_checks` function to install required tools like `curl` before using them.
+7. **Execution logic**: Always use the global `$SUDO` variable (defined in `main.sh`) instead of hardcoding `sudo`.
