@@ -48,6 +48,20 @@ fi
 echo "Detected OS: $OS_ID ($CODENAME)"
 echo "Target Nginx Version: $TARGET_VERSION"
 
+# Function to ensure basic dependencies are installed
+pre_install_checks() {
+    echo "Checking and installing basic dependencies..."
+    case $OS_ID in
+        ubuntu|debian)
+            apt-get update -y
+            apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring
+            ;;
+        centos|rhel|fedora|almalinux|rocky)
+            yum install -y curl yum-utils
+            ;;
+    esac
+}
+
 perform_uninstall() {
     echo "Removing existing Nginx installation..."
     case $OS_ID in
@@ -144,6 +158,8 @@ EOF
 }
 
 # Execution logic
+pre_install_checks
+
 [ "$UNINSTALL" = true ] && perform_uninstall
 
 case $OS_ID in
@@ -151,8 +167,13 @@ case $OS_ID in
     *) install_centos ;;
 esac
 
-systemctl enable nginx || true
-systemctl start nginx || true
+if command -v systemctl >/dev/null 2>&1; then
+    systemctl enable nginx || true
+    systemctl start nginx || true
+else
+    echo "WARNING: 'systemctl' not found. Skipping service initialization."
+    echo "You can start Nginx manually using: nginx"
+fi
 
 echo "Nginx v$TARGET_VERSION installation completed!"
 nginx -v 2>&1

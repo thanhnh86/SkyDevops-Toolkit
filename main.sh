@@ -9,6 +9,17 @@
 . core/utils.sh
 . plugins/nginx/install.sh
 
+# Global SUDO handling
+SUDO=""
+if [ "$(id -u)" -ne 0 ]; then
+    if command -v sudo >/dev/null 2>&1; then
+        SUDO="sudo"
+    else
+        echo -e "${RED}✘ Error: This toolkit requires root or 'sudo' privileges.${RESET}"
+        exit 1
+    fi
+fi
+
 # Function to catch window resize
 on_resize() {
     ui_init

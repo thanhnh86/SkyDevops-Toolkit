@@ -24,7 +24,7 @@
 │   └── utils.sh        # Các tiện ích spinner, progress bar
 ├── plugins/            # Các tính năng phần mềm mở rộng
 │   └── nginx/          # Plugin quản trị và cài đặt Nginx
-└── .agent/             # Cấu hình Agent và Scripts cài đặt chi tiết
+└── LICENSE             # Thông tin giấy phép dự án
 ```
 
 ## 🚀 Hướng dẫn bắt đầu

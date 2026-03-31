@@ -134,6 +134,14 @@ Input: Added user authentication with JWT tokens
 Output: feat(auth): implement JWT-based authentication
 ```
 
+#### Environment Preparation and Dependency Management
+
+When creating installer scripts or skills that rely on system tools (like `curl`, `git`, `gpg`), ALWAYS include a pre-check/installation step. This is especially important for fresh environments like Docker containers.
+
+- **Check and Install**: Don't assume tools are present. Use `apt-get install` or `yum install` at the start of the script.
+- **Root/Sudo Handling**: In `main.sh` or the entry point, detect if `sudo` is needed or if the user is already root, and use a variable like `$SUDO` for subsequent commands.
+- **Update Repositories**: Run `apt-get update` before trying to install new packages in Debian/Ubuntu systems.
+
 ### Writing Style
 
 Try to explain to the model why things are important in lieu of heavy-handed musty MUSTs. Use theory of mind and try to make the skill general and not super-narrow to specific examples. Start by writing a draft and then look at it with fresh eyes and improve it.

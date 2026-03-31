@@ -94,7 +94,7 @@ install_nginx() {
     
     # Actually run the script
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        sudo bash .agent/skills/nginx-install/scripts/install_nginx.sh $install_args
+        $SUDO bash plugins/nginx/scripts/install_nginx.sh $install_args
     else
         # Simulation for non-linux environments (like Mac dev)
         simulate_progress "Đang cấu hình Repository ($OS_ID)"
