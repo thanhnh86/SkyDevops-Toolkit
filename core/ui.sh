@@ -152,7 +152,13 @@ get_status() {
             nginx) ver=$(nginx -v 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+') ;;
             docker) ver=$(docker -v | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1) ;;
             mariadb) ver=$(mariadb -V 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+') ;;
-            apache2) ver=$(apache2 -v 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+') ;;
+            apache2) 
+                if command -v apache2 >/dev/null 2>&1; then
+                    ver=$(apache2 -v 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+') 
+                elif command -v httpd >/dev/null 2>&1; then
+                    ver=$(httpd -v 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+                fi
+                ;;
         esac
         [ -n "$ver" ] && echo -e "${GREEN}✔ v$ver${RESET}" || echo -e "${GREEN}✔${RESET}"
     else

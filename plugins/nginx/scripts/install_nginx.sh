@@ -53,6 +53,9 @@ pre_install_checks() {
     echo "Checking and installing basic dependencies..."
     case $OS_ID in
         ubuntu|debian)
+            # Cleanup any broken nginx list that might have the wrong URL
+            grep -l "nginx.org/packages/packages" /etc/apt/sources.list.d/* 2>/dev/null | xargs rm -f || true
+            
             apt-get update -y
             apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring
             ;;

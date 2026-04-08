@@ -8,6 +8,9 @@
 . core/os.sh
 . core/utils.sh
 . plugins/nginx/install.sh
+. plugins/apache2/install.sh
+. plugins/mariadb/install.sh
+. plugins/docker/install.sh
 
 # Global SUDO handling
 SUDO=""
@@ -65,7 +68,10 @@ handle_choice() {
     [ -z "$1" ] && return
     case $1 in
         1) nginx_menu ;;
-        2|3|4|5|6|7|8|9|10|11|12)
+        2) apache2_menu ;;
+        3) mariadb_menu ;;
+        4) docker_menu ;;
+        5|6|7|8|9|10|11|12)
             echo -e "${YELLOW}Tính năng này sẽ sớm được hoàn thiện...${RESET}"
             sleep 1
             ;;

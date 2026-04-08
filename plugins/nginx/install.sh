@@ -77,7 +77,12 @@ install_nginx() {
     echo -ne "\n${BOLD}➜ Xác nhận (Y/n):${RESET} "
     read -r confirm
     
-    if [[ "$confirm" =~ ^[Nn]$ ]]; then
+    # Default to 'y' if user just presses Enter
+    if [[ -z "$confirm" ]]; then
+        confirm="y"
+    fi
+    
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
         echo -e "\n  ${YELLOW}Đã hủy thao tác cài đặt.${RESET}"
         sleep 1
         return
